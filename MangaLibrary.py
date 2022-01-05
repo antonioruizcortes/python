@@ -2,6 +2,7 @@
 #from modulo1 import*
 
 import csv
+from  Test import*
 import os #para evitar problemas con abrir archivos en mac o en windows
 from collections import namedtuple 
 from datetime import datetime
@@ -16,7 +17,7 @@ R = TypeVar('R')
 
 DatosManga = namedtuple("DatosManga", "Title,Synonims_Titles,Type,Published,Finished,Serialization,Score,Ranked,Popularity,Members,Favorites,Score_Voted_By,Volumenes,Chapter,Genre,Author,Adult_content")
 
-
+'''
 def test_lee_datos_manga(fichero):
     
     valores=lee_datos_manga(fichero)
@@ -24,6 +25,7 @@ def test_lee_datos_manga(fichero):
     print("*El numero total de datos de mangas es:",len(valores),'\n')
     print("*Mostrando los tres primeros registros leidos:",'\n',valores[0],'\n',valores[1],'\n',valores[2],'\n')
     print("*Mostrando los tres ultimos registros leidos:",'\n',valores[-3],'\n',valores[-2],'\n',valores[-1],'\n')
+'''
 
 def imprime_lista(lista):
     for i in lista:
