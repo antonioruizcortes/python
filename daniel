@@ -332,8 +332,8 @@ if __name__ == '__main__':
 
     salir = False
     opcion = 0
-    nombre_fichero= './documents/python/data/IS1_page_top50-100mangaMAL.CSV'
-    #nombre_fichero= './documents/python/data/dataset_prueba.csv'
+    nombre_fichero= './data/IS1_page_top50-100mangaMAL.CSV'
+    #nombre_fichero= './data/dataset_prueba.csv'
  
     while not salir:
         print ("1. Leer dataset") 
