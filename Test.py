@@ -56,9 +56,9 @@ def test_capitulos_por_manga():
     imprime_dict(capitulos_por_manga(valores))
 
 
-def test_genero_con_mas_capitulos():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("Este es el manga con más capítulos es:")
+def test_genero_con_mas_capitulos(fichero):
+    valores=lee_datos_manga(fichero)
+    print("El manga con más capítulos es:")
     print("\n")
     print(genero_con_mas_capitulos(valores))
 
@@ -122,6 +122,8 @@ if __name__ == '__main__':
             test_ordena_filtra(nombre_fichero)
         elif opcion == 6:
             test_agrupacion(nombre_fichero)
+        elif opcion == 8:
+            test_genero_con_mas_capitulos(nombre_fichero)
         elif opcion == 10:
             test_max_seguidores_por_manga(nombre_fichero)
         elif opcion == 0:
