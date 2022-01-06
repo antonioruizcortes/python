@@ -1,6 +1,4 @@
 
-#from modulo1 import*
-
 import csv
 from  Test import*
 import os #para evitar problemas con abrir archivos en mac o en windows
@@ -91,7 +89,7 @@ def lee_datos_manga(fichero:str)-> List[DatosManga]:
 
 #FUNCION 1
         
-def filtra(ls: List[DatosManga], filtro) -> List[DatosManga]: 
+def filtra(ls: List[Any], filtro: str) -> List: 
     
     '''
     Función que devuelve una lista de tuplas con todos los mangas que cumplan el filtro
@@ -104,34 +102,19 @@ def filtra(ls: List[DatosManga], filtro) -> List[DatosManga]:
     
     SALIDA:
         @return: Lista de tuplas con el genero elegido y el titulo de los mangas
-        @rtype: [(int, int)]
+        @rtype: [(str, str)]
     '''
     
     lista=[(t.Genre, t.Title) for t in ls if filtro in t.Genre]
     return lista
 
-def filtraCompresion(ls, filtro) -> List[Any]:
-    
-    '''
-    Función que devuelve una lista de tuplas con todos los mangas que cumplan el filtro
-    
-    ENTRADA:
-        @param ls: Lista de tuplas que contiene los datos de los mangas
-        @type ls: [DatosManga(str, str, str, datetime, bool, float, int, int, int, int, int, int, int, str, str, bool)]
-        @param filtro: Genero específico con el que se filtran los mangas
-        @type filtro: str
-    
-    SALIDA:
-        @return: Lista de tuplas con el genero elegido y el titulo de los mangas
-        @rtype: [(int, int)]
-    '''
-    
-    lista=[(t.Genre, t.Title) for t in ls if filtro]
-    return lista
+
 
 #FUNCION 3
-
-def media(ls: List[DatosManga]) -> float:
+'''
+  devuelve la media de miembros por cada manga 
+'''
+def media_miembros(ls: List[DatosManga]) -> float:
     suma=0
     for t in ls:
         suma+=t.Members
@@ -142,14 +125,20 @@ def media(ls: List[DatosManga]) -> float:
 #BLOQUE 2
 
 #FUNCION 5
+'''
+devuelve la lista con las tupla de los mangas con máximo número de capótuloque tiene más capítulos 
+'''
 
-def MangaConMasCapitulos(ls: List[DatosManga]): 
+def MangasConMasCapitulos(ls: List[DatosManga]) -> List[DatosManga]: 
     lista1=[(t.Chapter) for t in ls]
-    lista2=[t for t in ls if t.Chapter==max(lista1)]
+    lista2=[(t.Title,t.Chapter) for t in ls if t.Chapter==max(lista1)]
     return lista2
 
 #FUNCION 6
 
+'''
+devuelve una lista ... no se ....
+'''
 def ordena_filtra(ls, filtro):
     lista_filtrada=[t for t in ls if filtro in t.Genre]
     return sorted(lista_filtrada, key=lambda x: x[9])
@@ -253,122 +242,3 @@ def grafica(ls):
     plt.xlim(min(miembros),60000)
     plt.show()
     '''
-
-
-def test_filtra():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("*Los mangas que son de Drama son:")
-    print("\n")
-    imprime_lista(filtra(valores, "Drama"))
-    
-    print("\n")
-
-
-def test_media():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("*La media de miebros en los Mangas es de",int(media(valores)))
-    
-    print("\n")
-
-
-def test_maximo():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("*El manga que tiene mas capítulos es:")
-    print("\n")
-  # print(maximo(valores))
-    
-    print("\n")
-
-def test_ordena_filtra():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    imprime_lista(ordena_filtra(valores, "Adventure"))
-    print('\n')
-    
-    
-    
-def test_agrupacion(nombreFichero):
-    valores=lee_datos_manga(nombreFichero)
-    da= agrupacion(valores)
-    print("*Se agruparán las tuplas según los siguientes tipos:" + str(da.keys()))
-    for clave in da.keys():
-        lv= da[clave]
-        print(clave+":",[(e[1],e[2]) for e in lv])
-#    imprime_dict(diccionario_agrupado)
-        
-def test_capitulos_por_manga():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("Estos son los mangas con su número correspondiente de capítulos:")
-    print("\n")
-    imprime_dict(capitulos_por_manga(valores))
-
-
-def test_genero_con_mas_capitulos():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("Este es el manga con más capítulos es:")
-    print("\n")
-    print(genero_con_mas_capitulos(valores))
-
-def test_maximas_temporadas_por_tipo():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print("Estos son el maximo numero de temporadas por tipo de manga:")
-    imprime_dict(maximas_temporadas_por_tipo(valores))
-    print("\n")
-    
-def test_max_seguidores_por_manga(nombreFichero):
-    valores=lee_datos_manga(nombreFichero)
-    print("Es:")
-    imprime_dict(max_seguidores_por_manga(valores))
-    print("\n")
-    valores=lee_datos_manga(nombreFichero)
-    print("Es:")
-    imprime_dict(max_seguidores_por_manga2(valores))
-    
-def test_grafica():
-    valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')
-    print(grafica(valores))
-'''
-La ideal del código del menú está tomada de https://www.discoduroderoer.es/crear-un-menu-de-opciones-en-consola-en-python/
-'''
-
-if __name__ == '__main__': 
-
-    salir = False
-    opcion = 0
-    nombre_fichero= './data/IS1_page_top50-100mangaMAL.CSV'
-    #nombre_fichero= './data/dataset_prueba.csv'
- 
-    while not salir:
-        print ("1. Leer dataset") 
-        print ("2. Filtrado de lista")
-        print ("3. Media")
-        print ("4. Máximo")
-        print ("5. Orden y filtro")
-        print ("6. Agrupación")
-        print ("7. Capítulos por manga")
-        print ("8. Género con más capítulos")
-        print ("9. Máxima temporadas por tipo")
-        print ("10. Máximo seguidores por manga")
-        print ("11. Gráfica")
-        print ("0. Salir del programa")
-    
-        opcion= int(input(("Elige una opcion: ")))
-
- 
-        if opcion == 1:
-            test_lee_datos_manga(nombre_fichero)
-        elif opcion == 2:
-            test_filtra(nombre_fichero)
-        elif opcion == 3:
-            print("Opcion 3")
-        elif opcion == 6:
-            test_agrupacion(nombre_fichero)
-        elif opcion == 10:
-            test_max_seguidores_por_manga(nombre_fichero)
-        elif opcion == 0:
-            salir = True
-        else:
-            print ("Introduce un numero entre 0 y 11")
-
-        int(input(("Pulsa para seguir con el programa ")))
-
-    print ("Fin")
