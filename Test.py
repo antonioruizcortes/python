@@ -61,6 +61,10 @@ def test_genero_con_mas_capitulos(fichero):
     print("El manga con más capítulos es:")
     print("\n")
     print(genero_con_mas_capitulos(valores))
+    print("El manga con más capítulos es (versión multigénero):")
+    print("\n")
+    print(genero_con_mas_capitulos2(valores))
+
 
 def test_maximas_temporadas_por_tipo():
     valores=lee_datos_manga('../data/IS1_page_top50-100mangaMAL.csv')

@@ -126,7 +126,7 @@ def media_miembros(ls: List[DatosManga]) -> float:
 
 #FUNCION 5
 '''
-devuelve la lista con las tupla de los mangas con máximo número de capótuloque tiene más capítulos 
+devuelve la lista con las tupla de los mangas con máximo número de capítulos  
 '''
 
 def MangasConMasCapitulos(ls: List[DatosManga]) -> List[DatosManga]: 
@@ -176,8 +176,27 @@ def genero_con_mas_capitulos(ls):
     d= capitulos_por_manga(ls)
     return max(d.items(), key=lambda x: x[1])
 
+#devuelve un diccionario con el número de capitulos de cada géneros de manga. Tiene en cuenta los manga multigénero
+def capitulos_por_genero_manga(ls):
+    d=dict()
+    for t in ls:
+        claves=str((t.Genre)).split("|")
+        #print(claves)
+       # print(claves)
+        for clave in claves:
+           # print("clave dentro multgenero",clave)
+            if clave not in d:
+                d[clave]=t.Chapter
+            else:
+                d[clave]+=t.Chapter
+    return d
+
+def genero_con_mas_capitulos2(ls):
+    d= capitulos_por_genero_manga(ls)
+    return max(d.items(), key=lambda x: x[1])
 #FUNCION 12
 
+#devuelve un diccionario con el máximo número de temporadas por tipo de manga
 def maximas_temporadas_por_tipo(ls):
     d=dict()
     for t in ls:
