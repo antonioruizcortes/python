@@ -1,6 +1,7 @@
 
 import csv
 from  Test import*
+from IterableUtils import*
 import os #para evitar problemas con abrir archivos en mac o en windows
 from collections import namedtuple 
 from datetime import datetime
@@ -23,6 +24,10 @@ def test_lee_datos_manga(fichero):
     print("*El numero total de datos de mangas es:",len(valores),'\n')
     print("*Mostrando los tres primeros registros leidos:",'\n',valores[0],'\n',valores[1],'\n',valores[2],'\n')
     print("*Mostrando los tres ultimos registros leidos:",'\n',valores[-3],'\n',valores[-2],'\n',valores[-1],'\n')
+'''
+'''
+def imprime_manga(m: DatosManga) -> None:
+    print ("Manga: {}")
 '''
 
 def imprime_lista(lista):
@@ -160,21 +165,7 @@ def agrupacion(ls: List[any]) -> Dict[K,List[V]]:
 
 #FUNCION 8 
 
-def capitulos_por_manga(ls):
-    d=dict()
-    for t in ls:
-        clave=t.Genre
-        if clave not in d:
-            d[clave]=t.Chapter
-        else:
-            d[clave]+=t.Chapter
-    return d
-    
-#FUNCION 11
 
-def genero_con_mas_capitulos(ls):
-    d= capitulos_por_manga(ls)
-    return max(d.items(), key=lambda x: x[1])
 
 #devuelve un diccionario con el número de capitulos de cada géneros de manga. Tiene en cuenta los manga multigénero
 def capitulos_por_genero_manga(ls):
@@ -191,7 +182,7 @@ def capitulos_por_genero_manga(ls):
                 d[clave]+=t.Chapter
     return d
 
-def genero_con_mas_capitulos2(ls):
+def genero_con_mas_capitulos(ls):
     d= capitulos_por_genero_manga(ls)
     return max(d.items(), key=lambda x: x[1])
 #FUNCION 12
@@ -214,22 +205,6 @@ que contienen dicha clave
 las claves del diccionario serán el genero de las mangas y el valor una lista en orden descende según los seguidores 
 '''
 
-
-identity = lambda x:x
-
-def grouping_reduce(iterable:Iterable[E], fkey:Callable[[E],K],op:Callable[[V,V],V], fvalue:Callable[[E],V]= identity) -> Dict[K, E]:
-    a = {} 
-    for e in iterable: 
-        k = fkey(e)
-        if k in a: 
-            a[k] = op(a[k],fvalue(e)) 
-        else:
-            a[k] = fvalue(e) 
-        return a
-    
-def grouping_list(iterable:Iterable[E], fkey:Callable[[E],K], fvalue:Callable[[E],V]=identity) -> Dict[K,List[V]]: 
-    return grouping_reduce(iterable,fkey,lambda x,y:x+y, lambda x: [fvalue(x)])
-
 def max_seguidores_por_manga(ls: List[any], n=3) -> Dict[Any,Any]:
     da=agrupacion(ls)
     print("*Se agruparán las tuplas según los siguientes tipos:" + str(da.keys()))
@@ -239,13 +214,20 @@ def max_seguidores_por_manga(ls: List[any], n=3) -> Dict[Any,Any]:
         da[clave] = [(e.Title,e.Members) for e in sorted(lv, key=lambda x:x.Members)[:n]]
     return da
 
-def max_seguidores_por_manga2(ls: List[DatosManga], n=3) -> Dict[Any,Any]:
-    da=grouping_list(ls,fkey= lambda x:x.Genre)
+'''
+Se inicializa el diccionario 'da' con los géneros de los mangas disponibles en el dataset. 
+Para ello usarmos la funcion 'grouping_list' que crea un diccionario a partir de una lista. 
+Las claves de este diccionarios serán el Género (lambda x:x.Genre), y el valor, la lista (grupo) de
+tuplas de cada género. Se podría tomar parte de una tupla indicándolo el valor de 
+parámetro por defecto de la función grouping_list (lambda x:x)
+
+'''
+def max_seguidores_por_manga2(ls: List[Any], n=3) -> Dict[Any,Any]:
+    da=grouping_list(ls,fkey= lambda x:x.Type)
     print("*Se agruparán las tuplas según los siguientes tipos:" + str(da.keys()))
     for clave in da.keys():
         lv= da[clave]
-        #print(clave+":",[(e[1],e[2]) for e in sorted(lv)[:n]])
-        da[clave] = sorted(lv, key=lambda x:x.Members)[:n]
+        da[clave] = [(e.Title,e.Members) for e in sorted(lv, key=lambda x:x.Members)[:n]]
     return da
 
     #FUNCION 15
