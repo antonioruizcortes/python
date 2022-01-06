@@ -1,2 +1,2 @@
 # python
-Some simple python programs
+Some simple python 3 programs
